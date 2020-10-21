@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 terraform {
-  backend = "s3"{}
+  backend "s3" {}
 }
 
 resource "aws_vpc" "production-vpc" {
@@ -45,9 +45,9 @@ resource "aws_subnet" "public-subnet-3" {
 }
 
 resource "aws_subnet" "private-subnet-1" {
-    cidr_block = "${var.private_subnet_1_cidr"}"
-    vpc_id = "${aws_vpc.production-vpc.id}"
-    availability_zone = "us-west-1a"
+  cidr_block        = "${var.private_subnet_1_cidr}"
+  vpc_id            = "${aws_vpc.production-vpc.id}"
+  availability_zone = "us-west-1a"
 
     tags {
       Name = "Private-Subnet-1"
