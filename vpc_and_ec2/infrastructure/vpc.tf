@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "${var.region}"
+  region = "var.region"
 }
 
 terraform {
@@ -141,6 +141,6 @@ resource "aws_nat_gateway" "nat-gw" {
 resource "aws_route" "nat-gw-route" {
   route_table_id         = "${aws_route_table.private-route_table.id}"
   nat_gateway_id         = "${aws_nat_gateway.nat-gw.id}"
-  destination_cidr_block = "0.0.0.0/0" 
+  destination_cidr_block = "0.0.0.0/0"
 
 }
