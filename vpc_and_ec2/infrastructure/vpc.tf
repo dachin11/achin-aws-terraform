@@ -15,8 +15,8 @@ resource "aws_vpc" "production-vpc" {
   }
 }
 resource "aws_subnet" "public-subnet-1" {
-  cidr_block        = "${var.public_subnet_1_cidr}"
-  vpc_id            = "${aws_vpc.production-vpc.id}"
+  cidr_block        = "var.public_subnet_1_cidr"
+  vpc_id            = "aws_vpc.production-vpc.id"
   availability_zone = "us-west-1a"
 
   tags {
