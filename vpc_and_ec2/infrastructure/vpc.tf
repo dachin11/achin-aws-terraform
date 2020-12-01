@@ -7,7 +7,7 @@ terraform {
 }
 
 resource "aws_vpc" "production-vpc" {
-  cidr_block           = "${var.vpc_cidr}"
+  cidr_block           = "var.vpc_cidr"
   enable_dns_hostnames = true
 
   tags {
@@ -143,4 +143,18 @@ resource "aws_route" "nat-gw-route" {
   nat_gateway_id         = "${aws_nat_gateway.nat-gw.id}"
   destination_cidr_block = "0.0.0.0/0"
 
+}
+
+resource "aws_internet_gateway" "production-igw" {
+  vpc_id = "${aws_vpc.production-vpc.id}"
+
+  tags {
+    Name = "Production-IGW"
+  }
+}
+
+resource "aws_route" "public-internet-gw-route" {
+  route_table_id         = "${aws_route_table.public-route-table.id}"
+  gateway_id             = "${aws_internet_gateway.production-igw.id}"
+  destination_cidr_block = "0.0.0.0/0"
 }
