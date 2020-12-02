@@ -7,7 +7,7 @@ terraform {
 }
 
 resource "aws_vpc" "production-vpc" {
-  cidr_block           = "var.vpc_cidr"
+  cidr_block           = "${var.vpc_cidr}"
   enable_dns_hostnames = true
 
   tags = {
@@ -15,7 +15,7 @@ resource "aws_vpc" "production-vpc" {
   }
 }
 resource "aws_subnet" "public-subnet-1" {
-  cidr_block        = "var.public_subnet_1_cidr"
+  cidr_block        = "${var.public_subnet_1_cidr}"
   vpc_id            = "aws_vpc.production-vpc.id"
   availability_zone = "us-west-1a"
 
@@ -25,7 +25,7 @@ resource "aws_subnet" "public-subnet-1" {
 }
 
 resource "aws_subnet" "public-subnet-2" {
-  cidr_block        = "var.public_subnet_2_cidr"
+  cidr_block        = "${var.public_subnet_2_cidr}"
   vpc_id            = "aws_vpc.production-vpc.id"
   availability_zone = "us-west-1b"
 
@@ -35,7 +35,7 @@ resource "aws_subnet" "public-subnet-2" {
 }
 
 resource "aws_subnet" "public-subnet-3" {
-  cidr_block        = "var.public_subnet_3_cidr"
+  cidr_block        = "${var.public_subnet_3_cidr}"
   vpc_id            = "aws_vpc.production-vpc.id"
   availability_zone = "us-west-1c"
 
@@ -45,7 +45,7 @@ resource "aws_subnet" "public-subnet-3" {
 }
 
 resource "aws_subnet" "private-subnet-1" {
-  cidr_block        = "var.private_subnet_1_cidr"
+  cidr_block        = "${var.private_subnet_1_cidr}"
   vpc_id            = "aws_vpc.production-vpc.id"
   availability_zone = "us-west-1a"
 
@@ -55,7 +55,7 @@ resource "aws_subnet" "private-subnet-1" {
 }
 
 resource "aws_subnet" "private-subet-2" {
-  cidr_block        = "var.private_subnet_2_cidr"
+  cidr_block        = "${var.private_subnet_2_cidr}"
   vpc_id            = "aws_vpc.production-vpc.id"
   availability_zone = "us-west-1b"
 
@@ -65,7 +65,7 @@ resource "aws_subnet" "private-subet-2" {
 }
 
 resource "aws_subnet" "private-subnet-3" {
-  cidr_block          = "var.private_subnet_3_cidr"
+  cidr_block          = "${var.private_subnet_3_cidr}"
   vpc_id              = "aws_vpc.production-vpc.id"
   availability_zone   = "us-west-1c"
 
