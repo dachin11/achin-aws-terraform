@@ -75,14 +75,14 @@ resource "aws_subnet" "private-subnet-3" {
 }
 
 resource "aws_route_table" "public-route-table" {
-  vpc_id = "aws_vpc.production-vpc.id"
+  vpc_id = "${aws_vpc.production-vpc.id}"
   tags = {
     Name = "Public-Route-Table"
   }
 }
 
-resource "aws_route" "private-route-table" {
-  vpc_id = "aws_vpc.production-vpc.id"
+resource "aws_route_table" "private-route-table" {
+  vpc_id = "${aws_vpc.production-vpc.id}"
   tags = {
     Name = "Private-Route-Table"
   }
@@ -128,7 +128,7 @@ resource "aws_eip" "elastic-ip-for-nat-gateway" {
 }
 
 resource "aws_nat_gateway" "nat-gw" {
-  allocation_id = "aws_eip.elastic_ip-for-nat-gw.id"
+  allocation_id = "${aws_eip.elastic_ip-for-nat-gw.id}"
   subnet_id     = "aws_subnet.public-subnet-1.id"
 
   tags = {
