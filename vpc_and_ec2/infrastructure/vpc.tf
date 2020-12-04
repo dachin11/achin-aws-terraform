@@ -17,7 +17,7 @@ resource "aws_vpc" "production-vpc" {
 resource "aws_subnet" "public-subnet-1" {
   cidr_block        = "${var.public_subnet_1_cidr}"
   vpc_id            = "${aws_vpc.production-vpc.id}"
-  availability_zone = "us-west-1a"
+  availability_zone = "us-west-1b"
 
   tags = {
     Name = "Public-Subnet-1"
@@ -47,7 +47,7 @@ resource "aws_subnet" "public-subnet-3" {
 resource "aws_subnet" "private-subnet-1" {
   cidr_block        = "${var.private_subnet_1_cidr}"
   vpc_id            = "${aws_vpc.production-vpc.id}"
-  availability_zone = "us-west-1a"
+  availability_zone = "us-west-1b"
 
     tags = {
       Name = "Private-Subnet-1"
