@@ -52,7 +52,8 @@ resource "aws_security_group" "ec2_private_security_group" {
     from_port = 0
     protocol = "-1"
     to_port = 0
-    cidr_blocks = [aws_security_group.ec2_public_security_group]
+    cidr_blocks = [
+      aws_security_group.ec2_public_security_group]
   }
 
   ingress {
@@ -93,10 +94,10 @@ resource "aws_security_group" "elb_security_group" {
 }
 
 resource "aws_iam_role" "ec2_iam_role" {
-  name = "EC2-IAM-Role"
+  name               = "EC2-IAM-Role"
   assume_role_policy = <<EOF
 {
-  "Version" : "2020-12-08"
+  "Version" : "2020-12-09"
   "Statement" :
   [
     {
@@ -109,4 +110,31 @@ resource "aws_iam_role" "ec2_iam_role" {
   ]
 }
   EOF
+}
+
+resource "aws_iam_role_policy" "ec2_iam_role_policy" {
+  name   = "EC2-IAM-Policy"
+  role   = aws_iam_role.ec2_iam_role.id
+  policy = <<EOF
+{
+  "Version": "2020-12-09"
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2*",
+        "elasticloadbalancing:*",
+        "cloudwatch:*",
+        "logs:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "ec2_instance_profile" {
+  name = "EC2-IAM-Instance-Profile"
+  role = aws_iam_role.ec2_iam_role.name
 }
