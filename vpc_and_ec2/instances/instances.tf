@@ -290,3 +290,44 @@ resource "aws_autoscaling_group" "ec2_public_autoscaling_group" {
     value               = "WebApp"
   }
 }
+
+resource "aws_autoscaling_policy" "webapp_production_scaling_policy " {
+  autoscaling_group_name   = aws_autoscaling_group.ec2_public_autoscaling_group.name
+  name                     = "Production-WebApp-AutoScaling-Policy"
+  policy_type              = "TargetTrackingPolicy"
+  min_adjustment_magnitude = 1
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 80.0
+  }
+}
+
+resource "aws_autoscaling_policy" "backend_production_scaling_policy" {
+  autoscaling_group_name   = aws_autoscaling_group.ec2_private_autoscaling_group.name
+  name                     = "Production-Backend-AutoScaling-Policy"
+  policy_type              = "TargetTrackingPolicy"
+  min_adjustment_magnitude = 1
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 80.0
+  }
+}
+
+resource "aws_sns_topic" "webapp_production_autoscaling_alert_topic" {
+  display_name = "WebApp-AutoScaling-Topic"
+  name         = "WebApp-AutoScaling-Topic"
+}
+
+resource "aws_sns_topic_subscription" "webapp_production_autoscaling_sms_subscription" {
+  endpoint = "8588293785"
+  protocol = "sms"
+  topic_arn = aws_sns_topic.webapp_production_autoscaling_alert_topic.arn
+}
+
+
