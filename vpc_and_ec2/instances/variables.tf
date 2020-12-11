@@ -19,3 +19,13 @@ variable "key_pair_name" {
   default ="dachin_aws"
   description = "Keypair to use to connect to EC2 instances"
 }
+
+variable "max_instance_size" {
+  default = 5
+  description = "Maximum number of instances to launch"
+}
+
+variable "min_instance_size" {
+  default = 1
+  description = "Minimum number of instances to launch"
+}
