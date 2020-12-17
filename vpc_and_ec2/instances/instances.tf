@@ -52,8 +52,7 @@ resource "aws_security_group" "ec2_private_security_group" {
     from_port = 0
     protocol = "-1"
     to_port = 0
-    cidr_blocks = [
-      aws_security_group.ec2_public_security_group]
+    security_groups = [aws_security_group.ec2_public_security_group.id]
   }
 
   ingress {
@@ -140,7 +139,7 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
 }
 
 data "aws_ami" "launch_configuration_ami" {
-  most_recent = true
+  most_recent = false
   owners = ["self"]
 
   filter {
@@ -150,7 +149,7 @@ data "aws_ami" "launch_configuration_ami" {
 }
 
 resource "aws_launch_configuration" "ec2_private_launch_configuration" {
-  image_id                    = data.aws_ami.launch_configuration_ami.id
+  image_id                    = "ami-08d9a394ac1c2994c"
   instance_type               = var.ec2_instance_type
   key_name                    = var.key_pair_name
   associate_public_ip_address = false
@@ -160,7 +159,7 @@ resource "aws_launch_configuration" "ec2_private_launch_configuration" {
   user_data = <<EOF
     #!/bin/bash
     yum update -y
-    yum install httpd24 -y
+    yum install httpd -y
     service httpd start
     chkconfig httpd on
     export INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
@@ -169,7 +168,7 @@ resource "aws_launch_configuration" "ec2_private_launch_configuration" {
 }
 
 resource "aws_launch_configuration" "ec2_public_launch_configuration" {
-  image_id                    = data.aws_ami.launch_configuration_ami.id
+  image_id                    = "ami-08d9a394ac1c2994c"
   instance_type               = var.ec2_instance_type
   key_name                    = var.key_pair_name
   associate_public_ip_address = true
@@ -179,7 +178,7 @@ resource "aws_launch_configuration" "ec2_public_launch_configuration" {
   user_data = <<EOF
     #!/bin/bash
     yum update -y
-    yum install httpd24 -y
+    yum install httpd -y
     service httpd start
     chkconfig httpd on
     export INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
