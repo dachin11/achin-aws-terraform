@@ -250,17 +250,18 @@ resource "aws_autoscaling_group" "ec2_private_autoscaling_group" {
   load_balancers = [
     aws_elb.backend_load_balancer.name]
 
-  tags = {
-    key                 = "Name"
-    propagate_at_launch = true
-    value               = "Backend-EC2-Instance"
-  }
-
-  tags = {
-    key                 = "Type"
-    propagate_at_launch = true
-    value               = "BackEnd"
-  }
+  tags = [
+    {
+      key                 = "Name"
+      value               = "Backend-EC2-Instance"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Type"
+      value               = "BackEnd"
+      propagate_at_launch = true
+    },
+  ]
 }
 
 resource "aws_autoscaling_group" "ec2_public_autoscaling_group" {
@@ -277,17 +278,18 @@ resource "aws_autoscaling_group" "ec2_public_autoscaling_group" {
   load_balancers = [
     aws_elb.webapp_load_balancer.name]
 
-  tags = {
-    key                 = "Name"
-    propagate_at_launch = true
-    value               = "WebApp-EC2-Instance"
-  }
-
-  tags = {
-    key                 = "Type"
-    propagate_at_launch = true
-    value               = "WebApp"
-  }
+  tags = [
+    {
+      key                 = "Name"
+      value               = "WebApp-EC2-Instance"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Type"
+      value               = "WebApp"
+      propagate_at_launch = true
+    },
+  ]
 }
 
 resource "aws_autoscaling_policy" "webapp_production_scaling_policy" {
