@@ -9,9 +9,9 @@ terraform {
 data "terraform_remote_state" "network_configuration" {
   backend = "s3"
 
-  config {
+  config = {
     bucket = var.remote_state_bucket
-    key    = var.remote_state_key
+    key = var.remote_state_key
     region = var.region
   }
 }
@@ -96,7 +96,7 @@ resource "aws_iam_role" "ec2_iam_role" {
   name               = "EC2-IAM-Role"
   assume_role_policy = <<EOF
 {
-  "Version" : "2020-12-09"
+  "Version" : "2020-12-09",
   "Statement" :
   [
     {
@@ -116,7 +116,7 @@ resource "aws_iam_role_policy" "ec2_iam_role_policy" {
   role   = aws_iam_role.ec2_iam_role.id
   policy = <<EOF
 {
-  "Version": "2020-12-09"
+  "Version": "2020-12-09",
   "Statement": [
     {
       "Effect": "Allow",
@@ -295,7 +295,7 @@ resource "aws_autoscaling_group" "ec2_public_autoscaling_group" {
 resource "aws_autoscaling_policy" "webapp_production_scaling_policy" {
   autoscaling_group_name   = aws_autoscaling_group.ec2_public_autoscaling_group.name
   name                     = "Production-WebApp-AutoScaling-Policy"
-  policy_type              = "TargetTrackingPolicy"
+  policy_type              = "TargetTrackingScaling"
   min_adjustment_magnitude = 1
 
   target_tracking_configuration {
