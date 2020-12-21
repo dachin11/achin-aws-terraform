@@ -97,18 +97,17 @@ resource "aws_iam_role" "ec2_iam_role" {
   assume_role_policy = <<EOF
 {
   "Version" : "2020-12-09",
-  "Statement" :
-  [
+  "Statement" : [
     {
       "Effect" : "Allow",
       "Principal" : {
-        "Service" : ["ec2.amazonaws.com", application-autoscaling.amazonaws.com"]
+        "Service" : ["ec2.amazonaws.com", "application-autoscaling.amazonaws.com"]
       },
       "Action" : "sts:AssumeRole"
     }
   ]
 }
-  EOF
+EOF
 }
 
 resource "aws_iam_role_policy" "ec2_iam_role_policy" {
