@@ -192,7 +192,7 @@ resource "aws_elb" "webapp_load_balancer" {
   subnets         = [
     data.terraform_remote_state.network_configuration.outputs.public_subnet_1_id,
     data.terraform_remote_state.network_configuration.outputs.public_subnet_2_id,
-    data.terraform_remote_state.network_configuration.outputs.public_subnet_3_id
+    data.terraform_remote_state.network_configuration.outputs.public_subnet_3_id,
   ]
   listener {
     instance_port = 80
@@ -217,7 +217,7 @@ resource "aws_elb" "backend_load_balancer" {
   subnets         = [
     data.terraform_remote_state.network_configuration.outputs.private_subnet_1_id,
     data.terraform_remote_state.network_configuration.outputs.private_subnet_2_id,
-    data.terraform_remote_state.network_configuration.outputs.private_subnet_3_id
+    data.terraform_remote_state.network_configuration.outputs.private_subnet_3_id,
   ]
   listener {
     instance_port = 80
@@ -240,7 +240,7 @@ resource "aws_autoscaling_group" "ec2_private_autoscaling_group" {
   vpc_zone_identifier = [
     data.terraform_remote_state.network_configuration.outputs.private_subnet_1_id,
     data.terraform_remote_state.network_configuration.outputs.private_subnet_2_id,
-    data.terraform_remote_state.network_configuration.outputs.private_subnet_3_id
+    data.terraform_remote_state.network_configuration.outputs.private_subnet_3_id,
   ]
   max_size = var.max_instance_size
   min_size = var.min_instance_size
@@ -268,7 +268,7 @@ resource "aws_autoscaling_group" "ec2_public_autoscaling_group" {
   vpc_zone_identifier = [
     data.terraform_remote_state.network_configuration.outputs.public_subnet_1_id,
     data.terraform_remote_state.network_configuration.outputs.public_subnet_2_id,
-    data.terraform_remote_state.network_configuration.outputs.public_subnet_3_id
+    data.terraform_remote_state.network_configuration.outputs.public_subnet_3_id,
   ]
   max_size = var.max_instance_size
   min_size = var.min_instance_size
@@ -325,7 +325,7 @@ resource "aws_sns_topic" "webapp_production_autoscaling_alert_topic" {
 }
 
 resource "aws_sns_topic_subscription" "webapp_production_autoscaling_sms_subscription" {
-  endpoint = "8588293785"
+ endpoint = "8588293785"
   protocol = "sms"
   topic_arn = aws_sns_topic.webapp_production_autoscaling_alert_topic.arn
 }
